@@ -16,6 +16,15 @@ colab dfs install                       # 重新注入本扩展（升级后如�
 
 所有子命令接受 `-- -任意参数` 透传给底层工具，本扩展没暴露的 flag 依然可用。
 
+## 一键安装
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/deluxebear/colab-dfs-ext/main/install.sh | sh
+```
+
+（wget 亦可：`wget -qO- ... | sh`。脚本只做三件事：下载仓库 tarball → 解压到临时目录 →
+跑 `python3 install.py`，最后打印后续步骤；可用 `COLAB_DFS_REPO` / `COLAB_DFS_REF` 覆盖来源。）
+
 ## 环境要求
 
 - Python 3.8+（`install.py` 与扩展本体均为纯标准库）
@@ -27,7 +36,10 @@ colab dfs install                       # 重新注入本扩展（升级后如�
 
 ### 第 1 步 · 安装扩展
 
+一键安装（见上）或手动安装：
+
 ```bash
+git clone https://github.com/deluxebear/colab-dfs-ext
 cd colab-dfs-ext            # 即本目录
 python3 install.py          # 任意 python3 均可
 colab dfs doctor            # 验证注入成功
@@ -132,6 +144,7 @@ COLAB_DFS_DEBUG=1 colab dfs …   # 加载器/注入的详细诊断
 
 ```
 extension/
+├── install.sh               # curl | sh 一键安装引导脚本（POSIX sh）
 ├── install.py               # 安装/修复/卸载/查看状态（纯标准库）
 ├── colab_dfs_loader.py      # .pth 启动钩子加载的 loader
 └── colab_dfs_ext/           # 扩展本体（会被拷贝/链接到 ~/.colab-dfs-ext/）
